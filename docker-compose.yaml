@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: kong
+      POSTGRES_USER: kong
+      POSTGRES_DB: parking
+    ports:
+      - "5432:5432"
+  parking:
+    build: .
+    depends_on:
+      db:
+        condition: service_started
+    ports:
+      - 8080:8080
